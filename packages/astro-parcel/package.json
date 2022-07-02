@@ -17,11 +17,16 @@
   "dependencies": {
     "astro": "1.0.0-beta.63",
     "fast-glob": "^3.2.11",
+    "fs-extra": "^10.1.0",
     "mri": "^1.2.0",
     "parcel": "2.6.2",
     "posthtml": "^0.16.6",
     "posthtml-relative-paths": "workspace:*",
     "resolve": "^1.22.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/resolve": "^1.20.2"
   },
   "engines": {},
   "keywords": [

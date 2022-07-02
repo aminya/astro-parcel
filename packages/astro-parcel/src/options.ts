@@ -15,6 +15,14 @@ export type Options = {
    */
   astroDist: string
   /**
+   * The public folder path.
+   *
+   * The files that are directly copied to @param parcelDist folder
+   *
+   * @default "./public"
+   */
+  publicDir: string
+  /**
    * The parcel cli js path
    *
    * @default resolved
@@ -49,19 +57,20 @@ export type CliOptions = Options & {
 export const optionsDefaults: Options = {
   parcelDist: "./dist",
   astroDist: "./dist",
+  publicDir: "./public",
   nodeBin: process.argv[0],
   astroJs: getAstroBinPath(),
   parcelJs: getParcelBinPath(),
   extraArgs: [],
 }
 
-export const cliOptionsKeys = ["parcelDist", "astroDist", "parcelJs", "astroJs", "nodeBin", "help", "_"]
+export const cliOptionsKeys = ["parcelDist", "astroDist", "publicDir", "parcelJs", "astroJs", "nodeBin", "help", "_"]
 
 export function parseOption(args: string[]) {
   const options = mri<CliOptions>(args, {
     boolean: ["help"],
     alias: { h: "help" },
-    string: ["parcelDist", "astroDist", "parcelJs", "astroJs", "nodeBin"],
+    string: ["parcelDist", "astroDist", "publicDir", "parcelJs", "astroJs", "nodeBin"],
     default: optionsDefaults,
   })
   const extraArgs = Object.entries(options)
@@ -93,10 +102,14 @@ serve
 Options
 --astroDist <string = "./dist">     the directory that astro writes the build result to
 --parcelDist <string = "./dist">    the directory to output the parcel result
+--publicDir <string = "./public">    The public folder path. The files that are directly copied to parcelDist folder
+
+Extra arguments are directly passed to Astro and then Parcel
+
+Advanced Options
 --astroJs <string = resolved>       the astro cli js path
 --parcelJs <string = resolved>      the parcel cli js path
 --nodeBin  <string = current node>  the node bin path
-Extra arguments are directly passed to Astro and then Parcel
 
 Examples
 astro-parcel build
