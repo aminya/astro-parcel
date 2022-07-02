@@ -2,7 +2,7 @@ import { help, parseOption } from "./options"
 import { build, dev, serve } from "./lib"
 
 async function main(args: string[]) {
-  const { options: cliOptions, extraArgs } = parseOption(args)
+  const cliOptions = parseOption(args)
   const command = cliOptions._[2] // node this_bin.js command
 
   if (cliOptions.help) {
@@ -11,16 +11,16 @@ async function main(args: string[]) {
 
   switch (command) {
     case "build": {
-      await build({ ...cliOptions, extraArgs })
+      await build(cliOptions)
       return
     }
     case "dev": {
-      await dev({ ...cliOptions, extraArgs })
+      await dev(cliOptions)
       return
     }
     case "serve":
     case "preview": {
-      await serve({ ...cliOptions, extraArgs })
+      await serve(cliOptions)
       return
     }
     default: {

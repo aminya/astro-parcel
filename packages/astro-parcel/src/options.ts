@@ -41,7 +41,7 @@ export type Options = {
   extraArgs: string[]
 }
 
-export type CliOptions = Omit<Options, "extraArgs"> & {
+export type CliOptions = Options & {
   _: string[]
   help: boolean
 }
@@ -52,7 +52,7 @@ export const optionsDefaults: Options = {
   nodeBin: process.argv[0],
   astroJs: getAstroBinPath(),
   parcelJs: getParcelBinPath(),
-  extraArgs: [],
+  extraArgs: []
 }
 
 export const cliOptionsKeys = ["parcelDist", "astroDist", "parcelJs", "astroJs", "nodeBin", "help", "_"]
@@ -67,8 +67,16 @@ export function parseOption(args: string[]) {
   const extraArgs = Object.entries(options)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .filter(([arg, _value]) => !cliOptionsKeys.includes(arg))
-    .map(([arg, value]) => `--${arg} ${value}`)
-  return { options, extraArgs }
+    .map(([arg, value]) => {
+      if (value === true) {
+        return `--${arg}`
+      }
+      return `--${arg} ${value}`
+    })
+
+  options.extraArgs = extraArgs
+
+  return options
 }
 
 export function help() {
