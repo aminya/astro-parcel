@@ -55,6 +55,11 @@ export async function build(options: Options) {
   // build with astro, convert the paths, and build with parcel
 
   spawnSync(nodeBin, [astroJs, "build", ...extraArgs], { stdio: "inherit" })
+  await copy(srcDir, astroDist, {
+    recursive: true,
+    filter: (file: string) => !file.endsWith(".astro"),
+    overwrite: false,
+  })
   await makeHTMLFilesRelative(astroDist, srcDir)
   spawnSync(nodeBin, [parcelJs, "build", "--dist-dir", parcelDist, ...filterParcelBuildArgs(extraArgs)], {
     stdio: "inherit",
