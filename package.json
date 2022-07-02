@@ -1,0 +1,55 @@
+{
+  "name": "astro-parcel-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Build and optimize your astro project using Parcel",
+  "repository": "https://github.com/aminya/astro-parcel",
+  "license": "Apache-2.0",
+  "author": "Amin Yahyaabadi",
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "bin": {
+    "setup-cpp": "./dist/bin.js"
+  },
+  "scripts": {
+    "build": "pnpm -r run build",
+    "bump": "ncu -u && pnpx typesync --ignoredeps=dev && pnpm update",
+    "clean": "shx rm -rf **/dist/",
+    "format": "prettier --write .",
+    "lint": "eslint . --fix",
+    "prepare": "npm run build",
+    "test.cspell": "cspell lint --no-progress --show-suggestions",
+    "test.format": "prettier . --check",
+    "test.lint": "eslint ."
+  },
+  "prettier": "prettier-config-atomic",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "cspell": "^6.2.2",
+    "eslint": "^8.19.0",
+    "eslint-config-atomic": "^1.18.1",
+    "npm-check-updates": "^15.0.1",
+    "npm-run-all2": "^6.0.1",
+    "prettier": "^2.7.1",
+    "prettier-config-atomic": "^3.0.10",
+    "shx": "^0.3.4",
+    "typescript": "^4.7.4"
+  },
+  "engines": {},
+  "keywords": [
+    "parcel",
+    "astro",
+    "build",
+    "bundle",
+    "plugin"
+  ],
+  "packages": [
+    "./packages/*"
+  ],
+  "pnpm": {
+    "overrides": {
+      "typescript": "^4.7.4"
+    }
+  }
+}
