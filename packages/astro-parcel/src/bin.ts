@@ -1,10 +1,14 @@
-import { parseOption } from "./options"
+import { help, parseOption } from "./options"
 import { build, dev, serve } from "./lib"
 
 async function main(args: string[]) {
   const cliOptions = parseOption(args)
   const command = cliOptions._[0] // command must be the first argument
   const extraArgs = cliOptions._.slice(1)
+
+  if (cliOptions.help) {
+    return console.log(help())
+  }
 
   switch (command) {
     case "build": {
