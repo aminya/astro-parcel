@@ -1,7 +1,7 @@
 import glob from "fast-glob"
 import { readFile, writeFile } from "fs/promises"
 import posthtml from "posthtml"
-import { PostHTMLRelativePaths } from "posthtml-relative-paths"
+import PostHTMLRelativePaths from "posthtml-relative-paths"
 import resolve from "resolve"
 import { dirname, join } from "path"
 import { spawn as spawnCb } from "child_process"
