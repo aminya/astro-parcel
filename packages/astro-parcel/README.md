@@ -11,7 +11,9 @@ npm i --save-dev astro-parcel
 ## CLI
 
 ```ps1
+
 astro-parcel <command> [options]
+Build and optimize your astro project using Parcel
 
 Commands
 build
@@ -21,11 +23,15 @@ serve
 Options
 --astroDist <string = "./dist">     the directory that astro writes the build result to
 --parcelDist <string = "./dist">    the directory to output the parcel result
+--publicDir <string = "./public">   the public folder path. The files that are directly copied to parcelDist folder
+--srcDir <string = "./src">         the src folder. This path is used to search for the files that are not present in astroDist folder
+
+Extra arguments are directly passed to Astro and then Parcel
+
+Advanced Options
 --astroJs <string = resolved>       the astro cli js path
 --parcelJs <string = resolved>      the parcel cli js path
 --nodeBin  <string = current node>  the node bin path
-Extra arguments are directly passed to Astro and then Parcel
-
 ```
 
 To use astro-parcel, you should configure your Astro project like normal. Then, call the astro-parcel commands.
@@ -50,4 +56,17 @@ astro-parcel build --astroDist "./dist" --parcelDist "./parcel-dist" --parcelJs 
 
 ## Why
 
-Astro is a great framework for making websites, and Parcel provides awesome bundling and optimization functionality out of the box. This package makes it possible to use Astro with Parcel.
+Astro is a great framework for making websites, and Parcel provides awesome bundling and optimization (e.g. Parcel-CSS, HTMLNano, etc.) functionality out of the box. This package makes it possible to use Astro with Parcel.
+
+## Using Parcel as the CSS, LESS, SCSS Bundler
+
+Astro's CSS bundling can result in duplicate files, while Parcel's CSS functionality is great in optimizing the CSS files. To use that, link the style files like this. Use a unique file name, so astro-parcel can resolve it in the source directory.
+
+```astro
+---
+
+---
+<head>
+  <link rel="stylesheet" href="./contact.scss" class="href">
+</head>
+```
