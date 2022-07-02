@@ -70,6 +70,11 @@ export function help() {
 astro-parcel <command> [options]
 Build and optimize your astro project using Parcel
 
+Commands
+build
+dev
+serve
+
 Options
 --astroDist <string = "./dist">     the directory that astro writes the build result to
 --parcelDist <string = "./dist">    the directory to output the parcel result
