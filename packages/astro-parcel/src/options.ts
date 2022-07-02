@@ -23,6 +23,14 @@ export type Options = {
    */
   publicDir: string
   /**
+   * The source folder path.
+   *
+   * This path is used to search for the files that are not present in @param astroDist folder.
+   *
+   * @default "./src"
+   */
+  srcDir: string
+  /**
    * The parcel cli js path
    *
    * @default resolved
@@ -58,19 +66,30 @@ export const optionsDefaults: Options = {
   parcelDist: "./dist",
   astroDist: "./dist",
   publicDir: "./public",
+  srcDir: "./src",
   nodeBin: process.argv[0],
   astroJs: getAstroBinPath(),
   parcelJs: getParcelBinPath(),
   extraArgs: [],
 }
 
-export const cliOptionsKeys = ["parcelDist", "astroDist", "publicDir", "parcelJs", "astroJs", "nodeBin", "help", "_"]
+export const cliOptionsKeys = [
+  "parcelDist",
+  "astroDist",
+  "publicDir",
+  "srcDir",
+  "parcelJs",
+  "astroJs",
+  "nodeBin",
+  "help",
+  "_",
+]
 
 export function parseOption(args: string[]) {
   const options = mri<CliOptions>(args, {
     boolean: ["help"],
     alias: { h: "help" },
-    string: ["parcelDist", "astroDist", "publicDir", "parcelJs", "astroJs", "nodeBin"],
+    string: ["parcelDist", "astroDist", "publicDir", "srcDir", "parcelJs", "astroJs", "nodeBin"],
     default: optionsDefaults,
   })
   const extraArgs = Object.entries(options)
@@ -102,7 +121,8 @@ serve
 Options
 --astroDist <string = "./dist">     the directory that astro writes the build result to
 --parcelDist <string = "./dist">    the directory to output the parcel result
---publicDir <string = "./public">    The public folder path. The files that are directly copied to parcelDist folder
+--publicDir <string = "./public">   the public folder path. The files that are directly copied to parcelDist folder
+--srcDir <string = "./src">         the src folder. This path is used to search for the files that are not present in astroDist folder
 
 Extra arguments are directly passed to Astro and then Parcel
 
