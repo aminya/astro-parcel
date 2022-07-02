@@ -6,8 +6,6 @@ enableGlobDot: true
 ignorePaths:
   - pnpm-lock.yaml
   - .git/
-  - dist/
-  - dev/cpp_vcpkg_project
 words:
   - aarch
   - aminya
