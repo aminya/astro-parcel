@@ -67,6 +67,13 @@ Astro's CSS bundling can result in duplicate files, while Parcel's CSS functiona
 
 ---
 <head>
-  <link rel="stylesheet" href="./contact.scss" class="href">
+  <link rel="stylesheet" href="./styles.scss" class="href">
 </head>
+```
+
+To use a single CSS bundle for the whole website, create a `./pages/styles.scss` and import all the CSS files used in your Page, and link it to your HTML files under the pages folder.
+
+```scss
+@use "../components/navbar/navbar.scss";
+@use "../components/footer/footer.scss";
 ```
