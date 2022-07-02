@@ -7,6 +7,7 @@ import { dirname, join } from "path"
 import { spawnSync } from "child_process"
 import { readFileSync } from "fs"
 import { optionsDefaults, Options, filterParcelBuildArgs } from "./options"
+import { copy } from "fs-extra"
 
 export function getHTMLFiles(astro_dist: string) {
   return glob([`${astro_dist}/**/*.html`], {
@@ -47,7 +48,7 @@ export function getAstroBinPath() {
 }
 
 export async function build(options: Options) {
-  const { astroDist, parcelDist, extraArgs, nodeBin, astroJs, parcelJs } = {
+  const { astroDist, parcelDist, publicDir, extraArgs, nodeBin, astroJs, parcelJs } = {
     ...optionsDefaults,
     ...options,
   }
@@ -58,6 +59,7 @@ export async function build(options: Options) {
   spawnSync(nodeBin, [parcelJs, "build", "--dist-dir", parcelDist, ...filterParcelBuildArgs(extraArgs)], {
     stdio: "inherit",
   })
+  await copy(publicDir, parcelDist, { recursive: true })
 }
 
 export function dev(options: Options) {

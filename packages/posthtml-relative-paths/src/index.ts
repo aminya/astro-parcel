@@ -31,7 +31,10 @@ function calculateRelativePath(url: string, filePath: string, root: string): str
  * @param rootGiven The root directory. Defaults to `"./dist"`
  * @returns A POSTHTML plugin
  */
-export default function PostHTMLRelativePaths(filePathGiven: string, rootGiven: string = resolve("./dist")): Plugin<Node> {
+export default function PostHTMLRelativePaths(
+  filePathGiven: string,
+  rootGiven: string = resolve("./dist")
+): Plugin<Node> {
   // make the file paths absolute and posix
   const root = toPosixPath(!isAbsolute(rootGiven) ? resolve(rootGiven) : rootGiven)
   const filePath = toPosixPath(!isAbsolute(filePathGiven) ? resolve(filePathGiven) : filePathGiven)
