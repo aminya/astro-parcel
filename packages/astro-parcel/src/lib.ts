@@ -19,6 +19,11 @@ export function getHTMLFiles(astro_dist: string) {
 
 export async function makeHTMLFilesRelative(astro_dist: string) {
   const htmlFiles = await getHTMLFiles(astro_dist)
+  if (htmlFiles.length === 0) {
+    throw new Error(
+      `No HTML files were found in ${astro_dist}. If you changed the Astro's outDir, you have to pass it to astro-parcel`
+    )
+  }
 
   await Promise.all(
     htmlFiles.map(async (htmlFile) => {
