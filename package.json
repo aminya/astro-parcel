@@ -13,6 +13,7 @@
     "format": "prettier --write .",
     "lint": "eslint . --fix",
     "prepare": "npm run build",
+    "publish": "pnpm -r publish",
     "test.cspell": "cspell lint --no-progress --show-suggestions",
     "test.format": "prettier . --check",
     "test.lint": "eslint ."
