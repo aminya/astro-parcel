@@ -4,11 +4,9 @@ import posthtml from "posthtml"
 import PostHTMLRelativePaths from "posthtml-relative-paths"
 import resolve from "resolve"
 import { dirname, join } from "path"
-import { spawn as spawnCb } from "child_process"
-import { promisify } from "util"
+import { spawnSync } from "child_process"
 import { readFileSync } from "fs"
 import { optionsDefaults, Options } from "./options"
-const spawn = promisify(spawnCb)
 
 export function getHTMLFiles(astro_dist: string) {
   return glob([`${astro_dist}/**/*.html`], {
@@ -50,29 +48,29 @@ export async function build(options: Options) {
   }
   // build with astro, convert the paths, and build with parcel
 
-  await spawn(nodeBin, [astroJs, "build", ...extraArgs], { stdio: "inherit" })
+  spawnSync(nodeBin, [astroJs, "build", ...extraArgs], { stdio: "inherit" })
   await makeHTMLFilesRelative(astroDist)
-  await spawn(nodeBin, [parcelJs, "build", "--dist-dir", parcelDist, ...extraArgs], { stdio: "inherit" })
+  spawnSync(nodeBin, [parcelJs, "build", "--dist-dir", parcelDist, ...extraArgs], { stdio: "inherit" })
 }
 
-export async function dev(options: Options) {
+export function dev(options: Options) {
   const { extraArgs, nodeBin, astroJs } = {
     ...optionsDefaults,
     ...options,
   }
 
   // use astro only for the development
-  await spawn(nodeBin, [astroJs, "dev", ...extraArgs], { stdio: "inherit" })
+  spawnSync(nodeBin, [astroJs, "dev", ...extraArgs], { stdio: "inherit" })
 }
 
-export async function serve(options: Options) {
+export function serve(options: Options) {
   const { extraArgs } = {
     ...optionsDefaults,
     ...options,
   }
 
   // use parcel to serve
-  await spawn(options.nodeBin, [options.parcelJs, "serve", "--dist-dir", options.parcelDist, ...extraArgs], {
+  spawnSync(options.nodeBin, [options.parcelJs, "serve", "--dist-dir", options.parcelDist, ...extraArgs], {
     stdio: "inherit",
   })
 }
