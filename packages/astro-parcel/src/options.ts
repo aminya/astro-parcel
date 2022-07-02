@@ -52,7 +52,7 @@ export const optionsDefaults: Options = {
   nodeBin: process.argv[0],
   astroJs: getAstroBinPath(),
   parcelJs: getParcelBinPath(),
-  extraArgs: []
+  extraArgs: [],
 }
 
 export const cliOptionsKeys = ["parcelDist", "astroDist", "parcelJs", "astroJs", "nodeBin", "help", "_"]
@@ -104,4 +104,26 @@ astro-parcel build --astroDist "./dist" --parcelDist "./parcel-dist"
 astro-parcel build --astroDist "./dist" --parcelDist "./parcel-dist" --parcelJs "./node_modules/parcel/lib/bin.js" --astroJs "./node_modules/astro/dist/cli/index.js"
 
 `
+}
+
+// parcel errors on unknown options, so the passed arguments needs to be filtered if they are not among these
+const parcelBuildOptions = [
+  "--no-optimize",
+  "--no-scope-hoist",
+  "--public-url",
+  "--no-content-hash",
+  "--no-cache",
+  "--config",
+  "--cache-dir",
+  "--no-source-maps",
+  "--target",
+  "--log-level",
+  "--no-autoinstall",
+  "--profile",
+  "--detailed-report",
+  "--reporter",
+]
+
+export function filterParcelBuildArgs(extraArgs: string[]) {
+  return extraArgs.filter((extraArg) => parcelBuildOptions.some((parcelArg) => extraArg.startsWith(parcelArg)))
 }

@@ -6,7 +6,7 @@ import resolve from "resolve"
 import { dirname, join } from "path"
 import { spawnSync } from "child_process"
 import { readFileSync } from "fs"
-import { optionsDefaults, Options } from "./options"
+import { optionsDefaults, Options, filterParcelBuildArgs } from "./options"
 
 export function getHTMLFiles(astro_dist: string) {
   return glob([`${astro_dist}/**/*.html`], {
@@ -50,7 +50,9 @@ export async function build(options: Options) {
 
   spawnSync(nodeBin, [astroJs, "build", ...extraArgs], { stdio: "inherit" })
   await makeHTMLFilesRelative(astroDist)
-  spawnSync(nodeBin, [parcelJs, "build", "--dist-dir", parcelDist, ...extraArgs], { stdio: "inherit" })
+  spawnSync(nodeBin, [parcelJs, "build", "--dist-dir", parcelDist, ...filterParcelBuildArgs(extraArgs)], {
+    stdio: "inherit",
+  })
 }
 
 export function dev(options: Options) {
