@@ -51,6 +51,7 @@ words:
   - npmrc
   - Opencppcoverage
   - OSSDK
+  - parceljs
   - pnpm
   - pwsh
   - pypy

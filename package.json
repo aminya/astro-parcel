@@ -35,9 +35,21 @@
   "keywords": [
     "parcel",
     "astro",
+    "astro-parcel",
+    "astrobuild",
+    "parceljs",
     "build",
     "bundle",
-    "plugin"
+    "plugin",
+    "html",
+    "posthtml",
+    "relative",
+    "relative-path",
+    "path",
+    "root",
+    "url",
+    "relative-attribute",
+    "attribute"
   ],
   "packages": [
     "./packages/*"
