@@ -1,0 +1,31 @@
+{
+  "name": "posthtml-relative-paths",
+  "version": "0.1.0",
+  "description": "Convert the absolute paths in HTML files to relative paths",
+  "homepage": "https://github.com/aminya/astro-parcel",
+  "repository": "https://github.com/aminya/astro-parcel",
+  "license": "Apache-2.0",
+  "author": "Amin Yahyaabadi",
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "shx rm -rf .parcel-cache dist"
+  },
+  "dependencies": {
+    "posthtml": "^0.16.6"
+  },
+  "engines": {},
+  "keywords": [
+    "html",
+    "posthtml",
+    "relative",
+    "relative-path",
+    "path",
+    "plugin",
+    "root",
+    "url",
+    "relative-attribute",
+    "attribute"
+  ]
+}
