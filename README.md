@@ -1,12 +1,11 @@
 # astro-parcel
 
-Build and optimize your astro project using Parcel
+Build and optimize your Astro project using Parcel
 
 ## CLI
 
-```
+```ps1
 astro-parcel <command> [options]
-Build and optimize your astro project using Parcel
 
 Commands
 build
@@ -27,19 +26,19 @@ To use astro-parcel, you should configure your Astro project like normal. Then, 
 
 To build the project:
 
-```
+```ps1
 astro-parcel build
 ```
 
-You can also specify the build directory for Astro or Parcel.
+You can also specify the build directory for Parcel via `--parcelDist`. If you have changed the `outDir` of Astro, you should pass it here as `--astroDist`:
 
-```
+```ps1
 astro-parcel build --astroDist "./dist" --parcelDist "./parcel-dist"
 ```
 
-You can also specify the path to the Astrojs or Parceljs.
+To use another version of Astrojs or Parceljs pass their binary js paths via `--astroJs` and `--parcelJs`.
 
-```
+```ps1
 astro-parcel build --astroDist "./dist" --parcelDist "./parcel-dist" --parcelJs "./node_modules/parcel/lib/bin.js" --astroJs "./node_modules/astro/dist/cli/index.js"
 ```
 
