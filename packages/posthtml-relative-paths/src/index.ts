@@ -1,6 +1,6 @@
 import type { Node, Plugin } from "posthtml"
 import { dirname, resolve, isAbsolute } from "path"
-import { join, relative } from "path/posix"
+import { basename, join, relative } from "path/posix"
 import { existsSync } from "fs"
 import { prependDot, removeDot, toPosixPath } from "./utils"
 import glob from "fast-glob"
@@ -61,10 +61,18 @@ function calculateRelativePath(url: string, filePath: string, root: string, src:
 }
 
 function searchInSourceFolder(src: string, url: string) {
-  return glob.sync([`${src}/**/${removeDot(url)}`], {
+  const files = glob.sync([`${src}/**/${removeDot(url)}`], {
     dot: true,
     onlyFiles: true,
   })
+  if (files.length === 0) {
+    return glob.sync([`${src}/**/${basename(url)}`], {
+      dot: true,
+      onlyFiles: true,
+    })
+  } else {
+    return files
+  }
 }
 const memoizedSearchInSourceFolder = memoize(searchInSourceFolder)
 
