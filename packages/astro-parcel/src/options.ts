@@ -55,13 +55,20 @@ export const optionsDefaults: Options = {
   extraArgs: [],
 }
 
+export const cliOptionsKeys = ["parcelDist", "astroDist", "parcelJs", "astroJs", "nodeBin", "help", "_"]
+
 export function parseOption(args: string[]) {
-  return mri<CliOptions>(args, {
+  const options = mri<CliOptions>(args, {
     boolean: ["help"],
     alias: { h: "help" },
     string: ["parcelDist", "astroDist", "parcelJs", "astroJs", "nodeBin"],
     default: optionsDefaults,
   })
+  const extraArgs = Object.entries(options)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .filter(([arg, _value]) => !cliOptionsKeys.includes(arg))
+    .map(([arg, value]) => `--${arg} ${value}`)
+  return { options, extraArgs }
 }
 
 export function help() {
