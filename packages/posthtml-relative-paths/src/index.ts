@@ -2,24 +2,54 @@ import type { Node, Plugin } from "posthtml"
 import { dirname, resolve, isAbsolute } from "path"
 import { join, relative } from "path/posix"
 import { existsSync } from "fs"
-import { prependDot, toPosixPath } from "./utils"
+import { prependDot, removeDot, toPosixPath } from "./utils"
+import glob from "fast-glob"
+import memoize from "micro-memoize"
 
 function calculateRelativePath(url: string, filePath: string, root: string, src: string): string {
   let resolvedFile = join(root, url)
 
   if (!existsSync(resolvedFile)) {
+    let found = false
+
     // if the file is not found in the root directory, search for it in the src directory
     const srcFile = join(src, url)
     if (existsSync(srcFile)) {
+      console.log(`Replaced ${resolvedFile} with ${srcFile}`)
       resolvedFile = srcFile
+      found = true
+    }
+
+    // HACK
+    /*
+     *  If the url is copied as is into the HTML file.
+     *
+     * For example, This can happen with Astro
+     *
+     *     <head>
+     *       <link rel="stylesheet" href="./contact.scss" class="href">
+     *     </head>
+     */
+    const filesSearched = memoizedSearchInSourceFolder(src, url)
+    if (filesSearched.length === 1) {
+      const fileSearched = filesSearched[0]
+      console.warn(`Replaced ${resolvedFile} with ${fileSearched}`)
+      resolvedFile = fileSearched
+      found = true
     }
 
     // HACK for astro imagetools bug
     // https://github.com/RafidMuhymin/astro-imagetools/issues/102
     const jpegFile = `${resolvedFile}.jpeg`
     if (existsSync(jpegFile)) {
-      console.log(`Replaced ${resolvedFile} with ${jpegFile} due to astro-imagetools' bug`)
+      console.warn(`Replaced ${resolvedFile} with ${jpegFile} due to astro-imagetools' bug`)
       resolvedFile = jpegFile
+      found = true
+    }
+
+    if (!found) {
+      console.error(`Could not resolve ${url} in ${filePath}`)
+      return url
     }
   }
 
@@ -29,6 +59,14 @@ function calculateRelativePath(url: string, filePath: string, root: string, src:
 
   return relativeFile
 }
+
+function searchInSourceFolder(src: string, url: string) {
+  return glob.sync([`${src}/**/${removeDot(url)}`], {
+    dot: true,
+    onlyFiles: true,
+  })
+}
+const memoizedSearchInSourceFolder = memoize(searchInSourceFolder)
 
 /**
  * A Post HTML plugin that makes the urls in a HTML file relative to the root
@@ -59,7 +97,11 @@ export default function PostHTMLRelativePaths(
         // if the tag contains a url
         // and the tag is one of the followings
         // and the url starts with /
-        if (typeof url === "string" && ["src", "href", "srcset"].includes(tag) && url.startsWith("/")) {
+        if (
+          typeof url === "string" &&
+          ["src", "href", "srcset"].includes(tag) &&
+          (url.startsWith("/") || url.startsWith("./") || url.startsWith("../"))
+        ) {
           // make it relative to the root
           node.attrs[tag] = calculateRelativePath(url, filePath, root, src)
         }
