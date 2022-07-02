@@ -9,8 +9,8 @@ import { readFileSync } from "fs"
 import { optionsDefaults, Options, filterParcelBuildArgs } from "./options"
 import { copy } from "fs-extra"
 
-export function getHTMLFiles(astro_dist: string) {
-  return glob([`${astro_dist}/**/*.html`], {
+export function getHTMLFiles(astroDist: string) {
+  return glob([`${astroDist}/**/*.html`], {
     dot: true,
     cwd: process.cwd(),
     onlyFiles: true,
@@ -18,18 +18,18 @@ export function getHTMLFiles(astro_dist: string) {
   })
 }
 
-export async function makeHTMLFilesRelative(astro_dist: string) {
-  const htmlFiles = await getHTMLFiles(astro_dist)
+export async function makeHTMLFilesRelative(astroDist: string, srcDir: string) {
+  const htmlFiles = await getHTMLFiles(astroDist)
   if (htmlFiles.length === 0) {
     throw new Error(
-      `No HTML files were found in ${astro_dist}. If you changed the Astro's outDir, you have to pass it to astro-parcel`
+      `No HTML files were found in ${astroDist}. If you changed the Astro's outDir, you have to pass it to astro-parcel`
     )
   }
 
   await Promise.all(
     htmlFiles.map(async (htmlFile) => {
       const htmlString = await readFile(htmlFile, "utf8")
-      const { html } = await posthtml([PostHTMLRelativePaths(htmlFile, astro_dist)]).process(htmlString)
+      const { html } = await posthtml([PostHTMLRelativePaths(htmlFile, astroDist, srcDir)]).process(htmlString)
       await writeFile(htmlFile, html)
     })
   )
@@ -48,14 +48,14 @@ export function getAstroBinPath() {
 }
 
 export async function build(options: Options) {
-  const { astroDist, parcelDist, publicDir, extraArgs, nodeBin, astroJs, parcelJs } = {
+  const { astroDist, parcelDist, publicDir, srcDir, extraArgs, nodeBin, astroJs, parcelJs } = {
     ...optionsDefaults,
     ...options,
   }
   // build with astro, convert the paths, and build with parcel
 
   spawnSync(nodeBin, [astroJs, "build", ...extraArgs], { stdio: "inherit" })
-  await makeHTMLFilesRelative(astroDist)
+  await makeHTMLFilesRelative(astroDist, srcDir)
   spawnSync(nodeBin, [parcelJs, "build", "--dist-dir", parcelDist, ...filterParcelBuildArgs(extraArgs)], {
     stdio: "inherit",
   })
