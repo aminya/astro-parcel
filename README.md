@@ -2,6 +2,12 @@
 
 Build and optimize your Astro project using Parcel
 
+## Install
+
+```
+npm i --save-dev astro-parcel
+```
+
 ## CLI
 
 ```ps1
@@ -44,4 +50,4 @@ astro-parcel build --astroDist "./dist" --parcelDist "./parcel-dist" --parcelJs 
 
 ## Why
 
-Astro is a great framework for making websites, and Parcel provides awesome bundling and optimization functionality. This package makes it possible to use Astro with Parcel.
+Astro is a great framework for making websites, and Parcel provides awesome bundling and optimization functionality out of the box. This package makes it possible to use Astro with Parcel.
