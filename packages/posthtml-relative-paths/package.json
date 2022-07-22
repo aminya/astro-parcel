@@ -29,5 +29,6 @@
     "url",
     "relative-attribute",
     "attribute"
-  ]
+  ],
+  "devDependencies": {}
 }
