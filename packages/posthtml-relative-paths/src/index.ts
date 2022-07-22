@@ -59,6 +59,7 @@ function calculateRelativePath(url: string, filePath: string, root: string, src:
 
   return relativeFile
 }
+const memoizedCalculateRelativePath = memoize(calculateRelativePath)
 
 function searchInSourceFolder(src: string, url: string) {
   const files = glob.sync([`${src}/**/${removeDot(url)}`], {
@@ -111,7 +112,7 @@ export default function PostHTMLRelativePaths(
           (url.startsWith("/") || url.startsWith("./") || url.startsWith("../"))
         ) {
           // make it relative to the root
-          node.attrs[tag] = calculateRelativePath(url, filePath, root, src)
+          node.attrs[tag] = memoizedCalculateRelativePath(url, filePath, root, src)
         }
       }
 
