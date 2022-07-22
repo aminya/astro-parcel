@@ -14,6 +14,7 @@
     "lint": "eslint . --fix",
     "prepare": "npm run build",
     "publish": "pnpm -r publish",
+    "test": "run-p test.cspell test.format test.lint",
     "test.cspell": "cspell lint --no-progress --show-suggestions",
     "test.format": "prettier . --check",
     "test.lint": "eslint ."

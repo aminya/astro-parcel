@@ -17,6 +17,7 @@
     "micro-memoize": "^4.0.10",
     "posthtml": "^0.16.6"
   },
+  "devDependencies": {},
   "engines": {},
   "keywords": [
     "html",
@@ -29,6 +30,5 @@
     "url",
     "relative-attribute",
     "attribute"
-  ],
-  "devDependencies": {}
+  ]
 }
