@@ -108,7 +108,7 @@ export default function PostHTMLRelativePaths(
         // and the url starts with /
         if (
           typeof url === "string" &&
-          ["src", "href", "srcset"].includes(tag) &&
+          ["src", "href", "srcset", "content"].includes(tag) &&
           (url.startsWith("/") || url.startsWith("./") || url.startsWith("../"))
         ) {
           // make it relative to the root
