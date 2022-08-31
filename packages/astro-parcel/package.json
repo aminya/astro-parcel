@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "astro": "1.1.2",
+    "execa": "5",
     "fast-glob": "^3.2.11",
     "fs-extra": "^10.1.0",
     "mri": "^1.2.0",

@@ -15,12 +15,12 @@ async function main(args: string[]) {
       return
     }
     case "dev": {
-      dev(cliOptions)
+      await dev(cliOptions)
       return
     }
     case "serve":
     case "preview": {
-      serve(cliOptions)
+      await serve(cliOptions)
       return
     }
     default: {
