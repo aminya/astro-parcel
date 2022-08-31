@@ -1,13 +1,11 @@
 import glob from "fast-glob"
-import { readFile, writeFile } from "fs/promises"
 import posthtml from "posthtml"
 import PostHTMLRelativePaths from "posthtml-relative-paths"
 import resolve from "resolve"
 import { dirname, join } from "path"
-import { spawnSync } from "child_process"
-import { readFileSync } from "fs"
+import execa from "execa"
 import { optionsDefaults, Options, filterParcelBuildArgs } from "./options"
-import { copy } from "fs-extra"
+import { copy, readFileSync, readFile, writeFile } from "fs-extra"
 
 export function getHTMLFiles(astroDist: string) {
   return glob([`${astroDist}/**/*.html`], {
@@ -54,37 +52,37 @@ export async function build(options: Options) {
   }
   // build with astro, convert the paths, and build with parcel
 
-  spawnSync(nodeBin, [astroJs, "build", ...extraArgs], { stdio: "inherit" })
+  await execa(nodeBin, [astroJs, "build", ...extraArgs], { stdio: "inherit" })
   await copy(srcDir, astroDist, {
     recursive: true,
     filter: (file: string) => !file.endsWith(".astro"),
     overwrite: false,
   })
   await makeHTMLFilesRelative(astroDist, srcDir)
-  spawnSync(nodeBin, [parcelJs, "build", "--dist-dir", parcelDist, ...filterParcelBuildArgs(extraArgs)], {
+  await execa(nodeBin, [parcelJs, "build", "--dist-dir", parcelDist, ...filterParcelBuildArgs(extraArgs)], {
     stdio: "inherit",
   })
   await copy(publicDir, parcelDist, { recursive: true })
 }
 
-export function dev(options: Options) {
+export async function dev(options: Options) {
   const { extraArgs, nodeBin, astroJs } = {
     ...optionsDefaults,
     ...options,
   }
 
   // use astro only for the development
-  spawnSync(nodeBin, [astroJs, "dev", ...extraArgs], { stdio: "inherit" })
+  await execa(nodeBin, [astroJs, "dev", ...extraArgs], { stdio: "inherit" })
 }
 
-export function serve(options: Options) {
+export async function serve(options: Options) {
   const { extraArgs } = {
     ...optionsDefaults,
     ...options,
   }
 
   // use parcel to serve
-  spawnSync(options.nodeBin, [options.parcelJs, "serve", "--dist-dir", options.parcelDist, ...extraArgs], {
+  await execa(options.nodeBin, [options.parcelJs, "serve", "--dist-dir", options.parcelDist, ...extraArgs], {
     stdio: "inherit",
   })
 }
