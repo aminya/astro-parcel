@@ -60,15 +60,20 @@ Astro is a great framework for making websites, and Parcel provides awesome bund
 
 ## Using Parcel as the CSS, LESS, SCSS Bundler
 
-Astro's CSS bundling can result in duplicate files, while Parcel's CSS functionality is great in optimizing the CSS files. To use that, link the style files like this. Use a unique file name, so astro-parcel can resolve it in the source directory.
+Astro's CSS bundling can result in duplicate files, while Parcel's CSS functionality is great in optimizing the CSS files. To use that, link the style files like the following. Use a unique file name, so astro-parcel can resolve it in the source directory. The `await import` is used for the `dev` build, and the `<link>` tag is used by for the production build.
 
 ```astro
----
 
 ---
+if (process.env.NODE_ENV !== "production") {
+  await import("./style.scss")
+}
+---
+
 <head>
   <link rel="stylesheet" href="./styles.scss" class="href">
 </head>
+
 ```
 
 To use a single CSS bundle for the whole website, create a `./pages/styles.scss` and import all the CSS files used in your Page, and link it to your HTML files under the pages folder.
