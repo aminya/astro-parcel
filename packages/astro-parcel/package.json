@@ -15,12 +15,12 @@
     "clean": "shx rm -rf .parcel-cache dist"
   },
   "dependencies": {
-    "astro": "1.1.2",
+    "astro": "1.7.1",
     "execa": "5",
-    "fast-glob": "^3.2.11",
-    "fs-extra": "^10.1.0",
+    "fast-glob": "^3.2.12",
+    "fs-extra": "^11.1.0",
     "mri": "^1.2.0",
-    "parcel": "2.7.0",
+    "parcel": "2.8.2",
     "posthtml": "^0.16.6",
     "posthtml-relative-paths": "workspace:*",
     "resolve": "^1.22.1"

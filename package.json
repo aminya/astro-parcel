@@ -8,7 +8,7 @@
   "author": "Amin Yahyaabadi",
   "scripts": {
     "build": "pnpm -r run build && shx cp ./README.md ./packages/astro-parcel/README.md",
-    "bump": "pnpm -r exec ncu -u && typesync --ignoredeps=dev && pnpm update",
+    "bump": "pnpm -r exec ncu -u -x execa && typesync --ignoredeps=dev && pnpm update",
     "clean": "shx rm -rf **/dist/",
     "format": "prettier --write .",
     "lint": "eslint . --fix",
