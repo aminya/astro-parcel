@@ -1,6 +1,6 @@
 {
   "name": "astro-parcel",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Build and optimize your Astro project using Parcel",
   "homepage": "https://github.com/aminya/astro-parcel",
   "repository": "https://github.com/aminya/astro-parcel",
