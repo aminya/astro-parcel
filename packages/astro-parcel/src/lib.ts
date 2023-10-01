@@ -20,7 +20,7 @@ export async function makeHTMLFilesRelative(astroDist: string, srcDir: string) {
   const htmlFiles = await getHTMLFiles(astroDist)
   if (htmlFiles.length === 0) {
     throw new Error(
-      `No HTML files were found in ${astroDist}. If you changed the Astro's outDir, you have to pass it to astro-parcel`
+      `No HTML files were found in ${astroDist}. If you changed the Astro's outDir, you have to pass it to astro-parcel`,
     )
   }
 
@@ -29,7 +29,7 @@ export async function makeHTMLFilesRelative(astroDist: string, srcDir: string) {
       const htmlString = await readFile(htmlFile, "utf8")
       const { html } = await posthtml([PostHTMLRelativePaths(htmlFile, astroDist, srcDir)]).process(htmlString)
       await writeFile(htmlFile, html)
-    })
+    }),
   )
 }
 
@@ -54,7 +54,6 @@ export async function build(options: Options) {
 
   await execa(nodeBin, [astroJs, "build", ...extraArgs], { stdio: "inherit" })
   await copy(srcDir, astroDist, {
-    recursive: true,
     filter: (file: string) => !file.endsWith(".astro"),
     overwrite: false,
   })
@@ -62,7 +61,7 @@ export async function build(options: Options) {
   await execa(nodeBin, [parcelJs, "build", "--dist-dir", parcelDist, ...filterParcelBuildArgs(extraArgs)], {
     stdio: "inherit",
   })
-  await copy(publicDir, parcelDist, { recursive: true })
+  await copy(publicDir, parcelDist)
 }
 
 export async function dev(options: Options) {

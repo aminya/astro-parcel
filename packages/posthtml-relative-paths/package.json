@@ -13,8 +13,8 @@
     "clean": "shx rm -rf .parcel-cache dist"
   },
   "dependencies": {
-    "fast-glob": "^3.2.12",
-    "micro-memoize": "^4.0.14",
+    "fast-glob": "^3.3.1",
+    "micro-memoize": "^4.1.2",
     "posthtml": "^0.16.6"
   },
   "devDependencies": {},
