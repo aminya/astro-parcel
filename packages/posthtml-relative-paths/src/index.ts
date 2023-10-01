@@ -82,13 +82,14 @@ const memoizedSearchInSourceFolder = memoize(searchInSourceFolder)
  *
  * @param filePathGiven The HTML file path
  * @param rootGiven The root directory. Defaults to `"./dist"`
- * @param srcGiven The src directory. Defaults to `"./src"`. Used to resolve the files that are not found in the root directory.
+ * @param srcGiven The src directory. Defaults to `"./src"`. Used to resolve the files that are not found in the root
+ *   directory.
  * @returns A POSTHTML plugin
  */
 export default function PostHTMLRelativePaths(
   filePathGiven: string,
   rootGiven: string = resolve("./dist"),
-  srcGiven: string = resolve("./src")
+  srcGiven: string = resolve("./src"),
 ): Plugin<Node> {
   // make the file paths absolute and posix
   const root = toPosixPath(!isAbsolute(rootGiven) ? resolve(rootGiven) : rootGiven)
